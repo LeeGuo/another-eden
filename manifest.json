@@ -1,5 +1,12 @@
 {
   "name": "another-eden-web",
+  "icons": [
+    {
+      "src": "/images/icons.jpg",
+      "type": "image/jpg",
+      "sizes": "180x180"
+    }
+  ],
   "short_name": "another-eden-web",
   "description": "for introduction of another edenanother-eden",
   "start_url": "/",

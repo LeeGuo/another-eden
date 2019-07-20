@@ -1,7 +1,24 @@
 {
-  "lint": {
-    "rules": [
-      "polymer-2-hybrid"
-    ]
-  }
+  "entrypoint": "index.html",
+  "shell": "src/ae-app.html",
+  "fragments": [
+  ],
+  "sources": [
+    "src/**/*",
+    "components/**/*",
+    "images/**/*",
+    "bower.json"
+  ],
+  "extraDependencies": [
+    "manifest.json",
+    "favicon.ico"
+  ],
+  "builds": [{
+      "preset": "es5-bundled",
+      "addServiceWorker": false,
+      "addPushManifest": false,
+      "css": {"minify": false},
+      "html": {"minify": false},
+      "js": {"minify": false, "compile": true}
+  }]
 }

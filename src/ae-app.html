@@ -1,0 +1,53 @@
+<link rel="import" href="../components/main-script/main-script.html">
+
+<dom-module id="ae-app">
+  <template>
+    <style include="iron-flex iron-flex-alignment">
+      :host {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+        background-color: aliceblue;
+        overflow: hidden;
+      }
+
+      [main-container] {
+        height: 100%;
+        width: 100%;
+      }
+
+      [header-bar] {
+        height: 10%;
+        width: 100%;
+        background-color: var(--paper-blue-400, #42a5f5);
+        box-shadow: 0px 0px 7px 0px black;
+      }
+    </style>
+
+    <div main-container class="layout vertical center">
+      <div header-bar class="flex-none layout horizontal center">
+        <div class="layout vertical" style="color:white; margin-left:1em;">
+          <div style="font-size:26px;">[[title]]</div>
+          <div style="font-size:18px; margin-top:0.5em;">[[subtitle]]</div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'ae-app',
+
+      properties: {
+        title: {type: String, value: 'Another Eden'},
+        subtitle: {type: String, value: 'The Cat Beyond Time and Space'},
+      },
+
+      _tap: function (e) {
+        console.log(e);
+      }
+
+    });
+  </script>
+</dom-module>
