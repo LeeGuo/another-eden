@@ -1,0 +1,30 @@
+{
+  "name": "another-eden",
+  "version": "1.0.0",
+  "description": "for introduction of another eden",
+  "main": "index.html",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "eslint": "^6.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeeGuo/another-eden.git"
+  },
+  "keywords": [
+    "another-eden",
+    "game"
+  ],
+  "author": "Lee Guo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LeeGuo/another-eden/issues"
+  },
+  "homepage": "https://github.com/LeeGuo/another-eden#readme"
+}
