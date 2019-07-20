@@ -1,0 +1,7 @@
+{
+  "name": "another-eden-web",
+  "short_name": "another-eden-web",
+  "description": "for introduction of another edenanother-eden",
+  "start_url": "/",
+  "display": "standalone"
+}
