@@ -2,7 +2,7 @@
   "name": "another-eden-web",
   "icons": [
     {
-      "src": "/images/icons.jpg",
+      "src": "/images/icon.jpg",
       "type": "image/jpg",
       "sizes": "180x180"
     }

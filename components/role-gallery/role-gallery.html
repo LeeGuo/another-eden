@@ -1,0 +1,163 @@
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+
+<dom-module id="role-gallery">
+  <template>
+    <style include="iron-flex iron-flex-alignment">
+      :host {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      [main-container] {
+        height: 100%;
+        width: 100%;
+        overflow: auto;
+      }
+
+      [wrap-container] {
+        justify-content: space-evenly;
+      }
+
+      [gallery-item] {
+        /* background-color: white; */
+        margin: 1em;
+      }
+      [gallery-item] .small-pic {
+        width: 200px;
+        height: 200px;
+        cursor: pointer;
+      }
+      [intro-block] {
+        height: 200px;
+        width: 300px;
+        overflow: auto;
+      }
+      [intro-content] {
+        padding: 0.5em;
+      }
+      [as-mark] {
+        position: absolute;
+        color: red;
+        font-weight: bolder;
+        margin: 5px 0 0 5px;
+      }
+      [name-bar] {
+        margin-top: 0.5em;
+        margin-left: 0.5em;
+      }
+    </style>
+
+    <div main-container class="layout vertical center">
+      <div wrap-container class="flex layout horizontal wrap center">
+        <template id="galleryTmpl" is="dom-repeat" items="[[roleGallery]]">
+          <div gallery-item class="layout vertical" id="role_[[index]]">
+            <paper-material class="small layout horizontal" elevation="3" style$="background-color:[[_materialColor(item.isOrigin)]]">
+
+              <div as-mark hidden="[[item.isOrigin]]">AS</div>
+              <img src$="[[item.origin.pic]]" class="small-pic" hidden="[[!item.isOrigin]]" on-tap="_switchIntroduction">
+              <img src$="[[item.as.pic]]" class="small-pic" hidden="[[item.isOrigin]]" on-tap="_switchIntroduction">
+
+              <!-- skill block -->
+              <div intro-block hidden="[[item.isIntroduction]]">
+                <!-- origin skill highlights -->
+                <div origin-skill intro-content hidden="[[!item.isOrigin]]">
+                  <template is="dom-repeat" items="[[item.origin.skill]]" as="skill">
+                    <div style="margin-bottom:0.5em;">[[skill]]</div>
+                  </template>
+                </div>
+                <!-- another style skill highlights -->
+                <div intro-content hidden="[[item.isOrigin]]">
+                  <template is="dom-repeat" items="[[item.as.skill]]" as="skill">
+                    <div style="margin-bottom:0.5em;">[[skill]]</div>
+                  </template>
+                </div>
+              </div>
+              <!-- introduction block -->
+              <div intro-block hidden="[[!item.isIntroduction]]">
+                <!-- origin introduction -->
+                <div origin-intro intro-content hidden="[[!item.isOrigin]]">[[item.origin.intro]]</div>
+                <!-- another style introduction -->
+                <div skill-intro intro-content hidden="[[item.isOrigin]]">[[item.as.intro]]</div>
+              </div>
+            </paper-material>
+            <div name-bar class="layout horizontal">
+              <div style="margin-right:0.5em;">[[item.nameZh]]</div>
+              <div>[[item.nameJp]]</div>
+              <div class="flex" hidden="[[!_hasAs(item.as)]]" style="text-align:end;">
+                Origin/AS: <iron-icon icon="autorenew" on-tap="_switchOriginAs" style="cursor:pointer;"></iron-icon>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+
+    <iron-ajax url="../../assets/gallery.json" auto handle-as="json" last-response="{{gallery}}"></iron-ajax>
+  </template>
+
+  <script>
+    let RoleGallery = Polymer({
+
+      is: 'role-gallery',
+
+      properties: {
+        gallery: {type: Array, observer: '_cookGallery'},
+        roleGallery: {type: Array},
+      },
+
+      _cookGallery: function (newValue) {
+        newValue.forEach((role, idx) => {
+          // get pic path
+          role.origin.pic = this.resolveUrl(this._toImgPath(role.origin.pic));
+          // this.set('gallery.' + idx + '.origin.pic', this.resolveUrl(this._toImgPath(role.origin.pic)));
+          if (role.as && role.as.pic) {
+            role.as.pic = this.resolveUrl(this._toImgPath(role.as.pic));
+            // this.set('gallery.' + idx + '.as.pic', this.resolveUrl(this._toImgPath(role.as.pic)));
+          }
+
+          // default status settings
+          role.isOrigin = true;
+          role.isIntroduction = false;
+        });
+
+        this.roleGallery = JSON.parse(JSON.stringify(this.gallery.slice(0)));
+      },
+      _toImgPath: function(imgName) {
+        return '../../images/' + imgName + '.png';
+      },
+
+      _switchIntroduction: function() {
+        let clickedRoleNo;
+        for (let i in event.path) {
+          if (event.path[i].id && event.path[i].id.startsWith('role_')) {
+            clickedRoleNo = parseInt(event.path[i].id.substr(5));
+          }
+        }
+
+        this.set('roleGallery.' + clickedRoleNo + '.isIntroduction', !this.roleGallery[clickedRoleNo].isIntroduction);
+      },
+
+      _switchOriginAs: function(event) {
+        let clickedRoleNo;
+        for (let i in event.path) {
+          if (event.path[i].id && event.path[i].id.startsWith('role_')) {
+            clickedRoleNo = parseInt(event.path[i].id.substr(5));
+          }
+        }
+
+        if (this.roleGallery[clickedRoleNo].as) {
+          this.set('roleGallery.' + clickedRoleNo + '.isOrigin', !this.roleGallery[clickedRoleNo].isOrigin);
+        }
+      },
+      _materialColor: function(isOrigin) {
+        return isOrigin ? '#ffffff' : '#fce8b2';
+      },
+
+      _hasAs: function(asObject) {
+        return asObject ? true : false;
+      }
+
+    });
+  </script>
+</dom-module>
